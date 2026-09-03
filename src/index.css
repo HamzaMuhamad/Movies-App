@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Inter", "Arial", "Roboto";
+  }
+
+}
+
+@theme {
+  --color-primary: #8B5CF6;
+  --color-second: #F59E0B;
+  --color-tertiary: #B06B00;
+  --color-off-white: #CBC3D7;
+  --color-dark: #0A0A0B;
+}
