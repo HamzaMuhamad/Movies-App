@@ -1,7 +1,24 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @layer components {
   .navbar-Item {
-    @apply rounded-xl p-2 flex flex-col items-center justify-center gap-2 min-h-16.5;
+    @apply rounded-xl p-2 flex flex-col items-center justify-center min-h-16.5;
+  }
+
+  .navbar-Item p {
+    @apply mt-2;
+  }
+
+  .navbar-Item.active {
+    @apply bg-linear-to-b from-[#d0bcff1a] from-90% to-transparent transition-all duration-200;
+  }
+
+  .navbar-Item.active p {
+    @apply bg-linear-to-b from-[#D0BCFF] from-18% to-[#7D7199] bg-clip-text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .navbar-Item.active svg path {
+    fill: url("#iconGradient");
   }
 }
