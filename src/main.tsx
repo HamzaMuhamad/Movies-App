@@ -5,7 +5,7 @@ import './index.css'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <section className="container block">
+    <section className="container">
       <Navbar />
     </section>
   </StrictMode>,
