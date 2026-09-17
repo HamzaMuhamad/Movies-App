@@ -1,35 +1,8 @@
 import "./home.css";
-import { moviesTopRated, showImage, moviesGenre, trending } from "../util/API";
+import { moviesTopRated, showImage, trending, getMovieGenres } from "../util/API";
+import type { iMultiContentResult } from "../util/API";
 import { useState, useEffect } from "react";
-
-
-  //* Mini component for trening movies ***
-function TrendingMovie ({title, genre, movieRate, movieImgUrl}: {title: string, genre: string, movieRate: number, movieImgUrl: string}): React.JSX.Element {
-  //? HERE: I will need `Id` my for click event to open the movie page ...
-  return (
-    <article className="min-w-35 relative">
-      <div className="rounded-xl bg-[#181c1f] inset-ring-1 inset-ring-[#ffffff1a] h-52.5 py-4 px-2 mb-2">
-        <img className="w-full h-full object-cover" src={movieImgUrl} alt={title} />
-      </div>
-
-      <section className="absolute top-2 left-2 rounded-md bg-[rgba(19,19,20,.8)] backdrop-blur-sm py-1 px-2 flex items-center gap-1">
-
-        <span className="  ">
-          <svg width="9" height="8" viewBox="0 0 9 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M1.59375 7.91667L2.27083 4.98958L0 3.02083L3 2.76042L4.16667 0L5.33333 2.76042L8.33333 3.02083L6.0625 4.98958L6.73958 7.91667L4.16667 6.36458L1.59375 7.91667Z" fill="#FFB95F"/>
-          </svg>
-        </span>
-
-        <span className="text-[#E5E2E3] text-[10px] leading-4">{movieRate.toFixed(1)}</span>
-      </section>
-
-      <section>
-        <h3 className="text-[#E5E2E3] font-semibold text-sm leading-5 tracking-[0.28px]">{title}</h3>
-        <p className="text-[#B4B1B9] text-[10px] leading-4">{genre}</p>
-      </section>
-    </article>
-  )
-}
+import { ContentCard } from "../components/assets/ContentCard";
 
 
 function Home() {
@@ -48,48 +21,9 @@ function Home() {
     return randInt
   }
 
-  function getMovieGenres(ids: number[]): string {
-      let genres: string[] = [];
-      moviesGenre?.genres.forEach((category:{id:number, name:string}):void => {
-        ids.forEach((current:number):void => {
-          if (category.id == current) {
-            if (category.name.startsWith("Science")) {
-              genres.push("Sci-Fi")
-
-            } else if (category.name.startsWith("Doc")) {
-              genres.push("Doc")
-
-            } else if (category.name.startsWith("Anim")) {
-              genres.push("Anime")
-
-            } else {
-              genres.push(category.name)
-
-            }
-          }
-        })
-      })
-
-      if (genres.length == 1) {
-        return genres[0]
-      }
-
-      let result = "";
-
-      genres.forEach((item):void => {
-        if (result.length == 0) {
-          result += item
-        } else {
-          result += `, ${item}`
-
-        }
-      }) ;
+  
 
 
-      return result;
-      
-
-  }
 
 
   useEffect(() => {
@@ -106,20 +40,10 @@ function Home() {
     }, 5000);
     
 
-    // Identifying result inside movies API
-    interface result {
-    [index: string]:string | number | boolean | number[],
-    genre_ids: number[],
-    poster_path: string,
-    title: string,
-    vote_average: number
-    }[]
-
-
-    function movieDetails (currentMovie: result):void {
+    function movieDetails (currentMovie: iMultiContentResult):void {
       movieRating.innerText = currentMovie!.vote_average.toFixed(1);
-      movieTitle.innerText = currentMovie!.title;
-      movieGenre.innerText = getMovieGenres(currentMovie.genre_ids);
+      movieTitle.innerText = currentMovie.title ?? currentMovie.name ?? "Untitled";
+      movieGenre.innerText = getMovieGenres(currentMovie.genre_ids).join(", ");
     }
 
 
@@ -151,17 +75,16 @@ function Home() {
       // Trending movies Display Function ***
   function trendingNowMovies (): React.JSX.Element[] {
 
-    console.log(trending)
     let movies: React.JSX.Element[] = [] ;
     let trendingResults = trending.results;
 
     trendingResults.forEach((movie): void => {
       let title = movie.title ? movie.title : movie.name as string;
-      let genre = getMovieGenres(movie.genre_ids);
+      let genre = getMovieGenres(movie.genre_ids).join(", ");
       let movieRate = movie.vote_average;
       let movieImgUrl = showImage(movie.poster_path) ;
 
-      movies.push(<TrendingMovie title={title} genre={genre} movieRate={movieRate} movieImgUrl={movieImgUrl} />);
+      movies.push(<ContentCard title={title} genre={genre} contentRate={movieRate} movieImgUrl={movieImgUrl} />);
 
     })
 
@@ -173,12 +96,12 @@ function Home() {
 
       <main className="bg-[#131314]"> {/*HAS A BEFORE */}
 
-        <section id="movies-crossfade" className="relative h-[60vh] mb-6">
+        <section id="movies-crossfade" className="overlay relative mb-6 h-[60vh]">
 
-          <img id="recent" className="object-cover absolute w-full h-full " alt="" />
-          <img id="old" className="object-cover absolute w-full h-full "   alt="" />
+          <img id="recent" className="absolute h-full w-full object-cover " alt="" />
+          <img id="old" className="absolute h-full w-full object-cover "   alt="" />
 
-          <section className="flex items-center justify-between h-16 px-4 bg-[#131314cc] absolute w-full backdrop-blur-md z-10">
+          <section className="absolute z-10 flex h-16 w-full items-center justify-between bg-[#131314cc] px-4 backdrop-blur-md">
 
             <div className="cursor-pointer">
               <svg
@@ -196,7 +119,7 @@ function Home() {
             </div>
 
 
-            <h1 className="font-black text-[2.5rem] text-primary-200 tracking-[-2px] leading-12">CINEMATIQUE</h1>
+            <h1 className="text-[2.5rem] leading-12 font-black tracking-[-2px] text-primary-200">CINEMATIQUE</h1>
 
             <div className="cursor-pointer">
               <svg
@@ -216,31 +139,31 @@ function Home() {
 
           </section>
 
-          <section className="h-full flex flex-col items-center justify-end px-4 pb-6 relative z-10">
+          <section className="relative z-10 flex h-full flex-col items-center justify-end px-4 pb-6">
 
-            <div className="flex items-center justify-center gap-2 mb-3 bg-[#201f20] px-3 py-1 rounded-full inset-ring-1 inset-ring-[#ffffff1a] backdrop-blur-md">
+            <div className="mb-3 flex items-center justify-center gap-2 rounded-full bg-[#201f20] px-3 py-1 inset-ring-1 inset-ring-[#ffffff1a] backdrop-blur-md">
 
               <div className="flex items-center justify-center gap-2"> {/* Rating */ }
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M2.23125 11.0833L3.17917 6.98542L0 4.22917L4.2 3.86458L5.83333 0L7.46667 3.86458L11.6667 4.22917L8.4875 6.98542L9.43542 11.0833L5.83333 8.91042L2.23125 11.0833Z" fill="#FFB95F"/>
                 </svg>
 
-                <p id="rating" className="text-sm text-[#FFB95F] leading-[19.6px] tracking-[0.28px] font-semibold ">8.7</p>
+                <p id="rating" className="text-sm leading-[19.6px] font-semibold tracking-[0.28px] text-[#FFB95F] ">8.7</p>
               </div>
 
-              <p className="text-[#958EA0] text-xs">•</p>
+              <p className="text-xs text-[#958EA0]">•</p>
 
-              <p id="movie-genre" className="text-[#958EA0] text-xs font-medium leading-[14.4px] tracking-[0.6px]">Sci-Fi, Drama</p> {/* Genre */}
+              <p id="movie-genre" className="text-xs leading-[14.4px] font-medium tracking-[0.6px] text-[#958EA0]">Sci-Fi, Drama</p> {/* Genre */}
 
 
             </div>
 
-            <h2 id="title" className="text-[#E5E2E3] pb-4 leading-12 tracking[-0.8px] text-[40px] font-extrabold text-center ">Interstellar</h2>
+            <h2 id="title" className="tracking[-0.8px] pb-4 text-center text-[40px] leading-12 font-extrabold text-[#E5E2E3] ">Interstellar</h2>
 
 
 
             {/* *** After creating the Movie component, You have to back here and add the link to the Movie *** */}
-            <button className="bg-primary-200 flex items-center justify-center gap-2 px-6 py-2 rounded-xl w-70 h-11 cursor-pointer">
+            <button className="flex h-11 w-70 cursor-pointer items-center justify-center gap-2 rounded-xl bg-primary-200 px-6 py-2">
 
               <div> {/* SVG Container */}
                 <svg width="11" height="14" viewBox="0 0 11 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -248,7 +171,7 @@ function Home() {
                 </svg>
 
               </div>
-              <p className="font-semibold text-sm leading-[19.6px] tracking-[0.28px] text-[#23005C]">View Details</p>
+              <p className="text-sm leading-[19.6px] font-semibold tracking-[0.28px] text-[#23005C]">View Details</p>
 
             </button>
             
@@ -257,12 +180,12 @@ function Home() {
         </section>
 
         <section className="pl-4">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-2xl font-semibold text-[#E5E2E3] leading-7.5">Trending Now</h2>
-            <button className="pr-4 text-primary-200 leading-3.5 text-xs tracking-[0.6px] font-medium cursor-pointer">See All</button>
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="text-2xl leading-7.5 font-semibold text-[#E5E2E3]">Trending Now</h2>
+            <button className="cursor-pointer pr-4 text-xs leading-3.5 font-medium tracking-[0.6px] text-primary-200">See All</button>
           </div>
 
-          <div className="flex gap-4 overflow-x-auto scrollbar-none ">
+          <div className="flex scrollbar-none gap-4 overflow-x-auto ">
             {trendingNowMovies()}
 
           </div>
