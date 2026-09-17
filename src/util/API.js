@@ -1,12 +1,11 @@
 
 
-let moviesUrl = "https://api.themoviedb.org/3/movie/changes?page=1?api_key=09dfd7f3f3db787250f9ac1837252c17";
+let moviesUrl = "https://api.themoviedb.org/3/discover/movie?api_key=09dfd7f3f3db787250f9ac1837252c17";
 
 let moviesGenreUrl = "https://api.themoviedb.org/3/genre/movie/list?language=en&api_key=09dfd7f3f3db787250f9ac1837252c17";
 
-let tvShowsUrl = "https://api.themoviedb.org/3/tv/changes?page=1?api_key=09dfd7f3f3db787250f9ac1837252c17";
+let tvShowsUrl = "https://api.themoviedb.org/3/discover/tv?api_key=09dfd7f3f3db787250f9ac1837252c17";
 
-let actorsUrl = "https://api.themoviedb.org/3/person/changes?page=1?api_key=09dfd7f3f3db787250f9ac1837252c17";
 
 let trendingUrl = "https://api.themoviedb.org/3/trending/all/day?language=en-US?api_key=09dfd7f3f3db787250f9ac1837252c17";
 
@@ -20,17 +19,47 @@ let options = {method: "GET",headers: {accept: "application/json", Authorization
 async function fetching (url) {
   const TMBDAPI = await fetch(url, options);
   const data = await TMBDAPI.json();
-
+  
   return data;
-
+  
 }
+
+/**
+ * 
+ * @param {number} contentId 
+ * @returns a valid URL for fetch the cast
+ */
+let castAndCrewUrl = (contentId) => `https://api.themoviedb.org/3/movie/${contentId}/credits`;
+
+
 
 const movies = await fetching(moviesUrl);
 const moviesGenre = await fetching(moviesGenreUrl);
 const tvShows = await fetching(tvShowsUrl);
-const actors = await fetching(actorsUrl);
 const trending = await fetching(trendingUrl);
 const moviesTopRated = await fetching(topRatedUrl);
+
+
+
+const fetchCastAndCrew = async (isMovie, contentId) => {
+  return await fetching(`https://api.themoviedb.org/3/${isMovie?"movie":"tv"}/${contentId}/credits`);
+};
+
+const fetchSimilarContent= async (isMovie, contentId) => {
+  return await fetching(`https://api.themoviedb.org/3/${isMovie?"movie":"tv"}/${contentId}/similar`);
+};
+
+const movieById = async function (id) {
+  let raw = await fetching(`https://api.themoviedb.org/3/movie/${id}?`);
+  
+  return raw
+}
+
+const tvById = async function (id) {
+  let raw = await fetching(`https://api.themoviedb.org/3/tv/${id}?`)
+  
+  return raw
+}
 
 
 function showImage(posterPath) {
@@ -38,5 +67,39 @@ function showImage(posterPath) {
 }
 
 
-export { movies, moviesGenre, tvShows, actors, trending, moviesTopRated, showImage };
+
+  /**
+   * Returns the orgainzed move genres ', ' 
+   * 
+   * @param {number[]} ids 
+   * @returns {string}*/ 
+  function getMovieGenres(ids) {
+      let genres = [];
+      moviesGenre?.genres.forEach((category) => {
+        ids.forEach((current) => {
+          if (category.id == current) {
+            if (category.name.startsWith("Science")) {
+              genres.push("Sci-Fi")
+
+            } else if (category.name.startsWith("Doc")) {
+              genres.push("Doc")
+
+            } else if (category.name.startsWith("Anim")) {
+              genres.push("Anime")
+
+            } else {
+              genres.push(category.name)
+
+            }
+          }
+        })
+      })
+
+
+      return genres;
+      
+
+  }
+
+export { movies, moviesGenre, tvShows, fetchCastAndCrew, trending, moviesTopRated, movieById, tvById, showImage, getMovieGenres, fetchSimilarContent };
 
