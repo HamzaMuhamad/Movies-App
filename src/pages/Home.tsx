@@ -84,7 +84,7 @@ function Home() {
       let movieRate = movie.vote_average;
       let movieImgUrl = showImage(movie.poster_path) ;
 
-      movies.push(<ContentCard title={title} genre={genre} contentRate={movieRate} movieImgUrl={movieImgUrl} />);
+      movies.push(<ContentCard key={title} title={title} genreOrChar={genre} contentRate={movieRate} movieImgUrl={movieImgUrl} />);
 
     })
 

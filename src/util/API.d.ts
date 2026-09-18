@@ -81,6 +81,11 @@ export interface iMultiContentResult {
   vote_count: number;
 }
 
+export interface iKnownFor extends iMultiContentResult {
+  character: string,
+  first_credit_air_date: string
+}
+
 
 
 
@@ -120,6 +125,25 @@ export interface iActedIn {
   crew: iCrew[]
 }
 
+export interface iPerson {
+  adult: boolean;
+  also_known_as: string[];
+  biography: string;
+  birthday: string | null;
+  deathday: string | null;
+  gender: number; // 0: Not set, 1: Female, 2: Male, 3: Non-binary
+  homepage: string | null;
+  id: number;
+  imdb_id: string | null;
+  known_for_department: string;
+  name: string;
+  place_of_birth: string | null;
+  popularity: number;
+  profile_path: string | null;
+}
+
+export const MONTHS:string[];
+
 export const movies: iMutliContent;
 export const moviesGenre: {genres: {id:number, name:string}[]};
 export const tvShows: iMutliContent;
@@ -133,4 +157,7 @@ export const castAndCrewUrl: (contentId: number) => string;
 export let showImage: (posterPath: string) => string;
 export const movieById: (id: number) => Promise<iContent>;
 export const tvById: (id: number) => Promise<iContent>;
+export const personById: (personId: number) => Promise<iPerson>; 
+export const moviesWorksURL: (personId: number) => Promise<iKnownFor[]>;
+export const tvWorksURL: (personId: number) => Promise<iKnownFor[]>;
 export function getMovieGenres(ids: number[]): string[];

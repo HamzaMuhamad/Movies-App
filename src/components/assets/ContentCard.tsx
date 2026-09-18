@@ -1,13 +1,13 @@
 interface iContentCard {
   title: string;
-  genre: string;
+  genreOrChar: string;
   contentRate: number;
   movieImgUrl: string;
 }
 
 function ContentCard({
   title,
-  genre,
+  genreOrChar,
   contentRate,
   movieImgUrl,
 }: iContentCard): React.JSX.Element {
@@ -47,7 +47,7 @@ function ContentCard({
         <h3 className="text-sm leading-5 font-semibold tracking-[0.28px] text-[#E5E2E3]">
           {title}
         </h3>
-        <p className="text-[10px] leading-4 text-[#B4B1B9]">{genre}</p>
+        <p className="text-[10px] leading-4 text-[#B4B1B9]">{genreOrChar}</p>
       </section>
     </article>
   );

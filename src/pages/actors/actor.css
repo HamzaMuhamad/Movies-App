@@ -1,0 +1,5 @@
+
+@reference "../../index.css"; /* FOR DEV */
+label:has(input[type="radio"]:checked) {
+  @apply bg-primary-200 text-[#3C0091] duration-300;
+}

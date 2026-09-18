@@ -1,4 +1,7 @@
 
+export const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+
 
 let moviesUrl = "https://api.themoviedb.org/3/discover/movie?api_key=09dfd7f3f3db787250f9ac1837252c17";
 
@@ -23,14 +26,6 @@ async function fetching (url) {
   return data;
   
 }
-
-/**
- * 
- * @param {number} contentId 
- * @returns a valid URL for fetch the cast
- */
-let castAndCrewUrl = (contentId) => `https://api.themoviedb.org/3/movie/${contentId}/credits`;
-
 
 
 const movies = await fetching(moviesUrl);
@@ -60,6 +55,26 @@ const tvById = async function (id) {
   
   return raw
 }
+
+
+
+const personById = async function (personId) {
+  let raw = await fetching(`https://api.themoviedb.org/3/person/${personId}?`)
+  return raw
+}
+
+const moviesWorksURL = async (personId) => {
+  
+  let raw = await fetching(`https://api.themoviedb.org/3/person/${personId}/movie_credits`);
+  return raw.cast;
+};
+
+const tvWorksURL = async (personId) => {
+  let raw = await fetching(`https://api.themoviedb.org/3/person/${personId}/tv_credits`);
+  return raw.cast;
+
+};
+
 
 
 function showImage(posterPath) {
@@ -101,5 +116,5 @@ function showImage(posterPath) {
 
   }
 
-export { movies, moviesGenre, tvShows, fetchCastAndCrew, trending, moviesTopRated, movieById, tvById, showImage, getMovieGenres, fetchSimilarContent };
+export { movies, moviesGenre, tvShows, fetchCastAndCrew, trending, moviesTopRated, movieById, tvById, showImage, getMovieGenres, fetchSimilarContent, personById, moviesWorksURL, tvWorksURL };
 
