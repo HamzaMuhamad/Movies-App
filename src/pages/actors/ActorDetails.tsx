@@ -4,7 +4,7 @@ import About from "../../components/about/About";
 import { ContentCard } from "../../components/assets/ContentCard";
 import Filmography from "../../components/filmography/Filmography"
 import type { iPerson, iKnownFor } from "../../util/API";
-import { useEffect, useState, type MouseEventHandler } from "react";
+import { useEffect, useState } from "react";
 
 
 import "./actor.css";
@@ -75,16 +75,16 @@ function Actor ({id}: {id: number}) {
     const filmoCards: React.JSX.Element[] = [];
 
     if (categoryFilmo == "movies") {
-      filmographyMovies.forEach((_, i) => {
+      filmographyMovies?.forEach((_, i) => {
         filmoCards.push(<Filmography key={i} whereData={filmographyMovies} indx={i}/>)
       })
       
     } else if (categoryFilmo == "tv") {
-      filmographyTv.forEach((_, i) => {
+      filmographyTv?.forEach((_, i) => {
         filmoCards.push(<Filmography key={i} whereData={filmographyTv} indx={i}/>)
       })
     } else {
-      filmographyAll.forEach((_, i) => {
+      filmographyAll?.forEach((_, i) => {
         filmoCards.push(<Filmography key={i} whereData={filmographyAll} indx={i}/>)
       })
       

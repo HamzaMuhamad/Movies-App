@@ -1,4 +1,4 @@
-export interface iContent {
+export interface iContentResults {
   adult: boolean;
   backdrop_path: string;
   belongs_to_collection?: object | null;
@@ -43,6 +43,12 @@ export interface iContent {
   vote_count: number;
 }
 
+export interface iContent {
+  page: number,
+  results: iContentResults[],
+  total_pages: number,
+  total_results: number
+}
 
 interface iGenre {
     id: number;
@@ -144,9 +150,9 @@ export interface iPerson {
 
 export const MONTHS:string[];
 
-export const movies: iMutliContent;
+export const movies: iContent;
 export const moviesGenre: {genres: {id:number, name:string}[]};
-export const tvShows: iMutliContent;
+export const tvShows: iContent;
 export const trending: iMutliContent;
 export const moviesTopRated: iMutliContent;
 
@@ -155,8 +161,8 @@ export const fetchCastAndCrew: (isMovie: boolean, id: number) => Promise<iActedI
 export const fetchSimilarContent: (isMovie: boolean, id: number) => Promise<iMutliContent>;
 export const castAndCrewUrl: (contentId: number) => string;
 export let showImage: (posterPath: string) => string;
-export const movieById: (id: number) => Promise<iContent>;
-export const tvById: (id: number) => Promise<iContent>;
+export const movieById: (id: number) => Promise<iContentResults>;
+export const tvById: (id: number) => Promise<iContentResults>;
 export const personById: (personId: number) => Promise<iPerson>; 
 export const moviesWorksURL: (personId: number) => Promise<iKnownFor[]>;
 export const tvWorksURL: (personId: number) => Promise<iKnownFor[]>;
