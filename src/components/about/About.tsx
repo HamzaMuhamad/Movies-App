@@ -27,19 +27,19 @@ function About({title, paragraph}: {title: string, paragraph: string}): React.JS
     readMoreBtn?.addEventListener("click", handleClick)
 
     // Cleaning UP.
-    return () => {readMoreBtn?.removeEventListener("click", handleClick)}
+    return () => readMoreBtn?.removeEventListener("click", handleClick)
 
     
 
 
-  })
+  }, [])
 
 
   return (
     <section className="text-start">
         <h3 className="mb-1 text-[#E5E2E3] font-semibold leading-7.75 text-2xl">{title}</h3>
         <p id="text" className="text-off-white leading-6.5 line-clamp-5 overflow-hidden">{paragraph}</p>
-        <label id="readMore" className="text-blue-500 cursor-pointer">Read More...</label>
+        <label id="readMore" className="text-blue-500 cursor-pointer w-fit">Read More...</label>
     </section>
   )
 

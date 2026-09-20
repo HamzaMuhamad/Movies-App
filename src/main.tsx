@@ -2,6 +2,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import Navbar from "./components/navbar/Navbar.tsx";
+import Loading from "./components/loading/Loading.tsx";
 import ContentDetails from "./pages/content/ContentDetails";
 import Content from "./pages/content/Content";
 import Home from "./pages/Home";
@@ -13,9 +14,9 @@ createRoot(document.getElementById("root")!).render(
       <Navbar />
       {/* <Home /> */}
       {/* <ContentDetails isMovie={true} id={503} /> */}
-      {/* <Actor id={503} /> */}
-      <Content areMovies={!true} />
-      <Content areMovies={!true} />
+      <Actor id={503} />
+      {/* <Content areMovies={true} /> */}
+      {/* <Loading /> */}
     </section>
   // </StrictMode>,
 );

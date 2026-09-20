@@ -1,31 +1,14 @@
 
-/**
- * Plan ***
- * 
- * function to fetch: ✅
- *  - fetch movies in useEffect ✅
- *  - fetch tvShows in useEffect ✅
- *  - organize them ASEN according to release Date ✅
- * 
- * useState to Accept the data which will be fetched ✅
- * 
- * ContentCard component which design the card shape ✅
- *  - Poster Image ✅
- *  - Title ✅
- *  - Rate ✅
- *  
- * function To Display Content ...
- * 
- */
+
 import { useState, useEffect } from "react";
 import { movies, tvShows, showImage } from "../../util/API";
 import type { iContentResults } from "../../util/API";
+import Loading from "../../components/loading/Loading"
 
 
 
 export default function Content({areMovies}: {areMovies: boolean}) {
   const [content, setContent] = useState<iContentResults[] | undefined>([])
-console.log(content)
 
   /**
    * [YEAR, MONTH, DAY] */
@@ -91,7 +74,7 @@ console.log(content)
   }
 
   if (content?.length == 0) {
-    <h1 className="bg-red-500">Loading</h1>
+    <Loading />
 
   }
   return(

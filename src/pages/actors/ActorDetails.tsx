@@ -1,13 +1,13 @@
 import { MONTHS, personById, showImage, moviesWorksURL, tvWorksURL } from "../../util/API";
+import "./actor.css";
 import ToolBar from "../../components/toolbar/Toolbar";
 import About from "../../components/about/About";
+import Loading from "../../components/loading/Loading";
 import { ContentCard } from "../../components/assets/ContentCard";
 import Filmography from "../../components/filmography/Filmography"
 import type { iPerson, iKnownFor } from "../../util/API";
 import { useEffect, useState } from "react";
 
-
-import "./actor.css";
 
 
 function Actor ({id}: {id: number}) {
@@ -195,7 +195,7 @@ function Actor ({id}: {id: number}) {
   // LOADING Comp.
   if (!person) {
     return (
-      <h1>Loading Actor</h1>
+      <Loading />
     )
   }
   return (
