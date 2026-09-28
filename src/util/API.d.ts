@@ -142,6 +142,24 @@ export interface iPerson {
   profile_path: string | null;
 }
 
+interface iPersonPopular {
+  page: number,
+  results: iPersonPopularResults[],
+  total_pages: number,
+  total_results: number
+}
+interface iPersonPopularResults {
+  adult: boolean,
+  gender: number,
+  id: number,
+  known_for: iMultiContentResult[],
+  known_for_department: string,
+  name: string,
+  original_name: string,
+  popularity: number,
+  profile_path: string,
+};
+
 export const MONTHS:string[];
 
 export const movies: iMutliContent;
@@ -149,6 +167,7 @@ export const moviesGenre: {genres: {id:number, name:string}[]};
 export const tvShows: iMutliContent;
 export const trending: iMutliContent;
 export const moviesTopRated: iMutliContent;
+export const personsPopular: iPersonPopular;
 
 
 export const fetchCastAndCrew: (isMovie: boolean, id: number) => Promise<iActedIn>;
