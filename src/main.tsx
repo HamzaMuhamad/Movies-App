@@ -54,6 +54,7 @@ const router = createBrowserRouter([
   },
 ])
 
+console.log(personsPopular.page)
 createRoot(document.getElementById("root")!).render(
   // <StrictMode>
     <section>
