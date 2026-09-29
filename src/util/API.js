@@ -78,6 +78,10 @@ const tvWorksURL = async (personId) => {
 
 };
 
+function search (searchQuery, pageNumber) {
+  return fetching(`https://api.themoviedb.org/3/search/multi?query=${searchQuery}&page=${pageNumber}`);
+}
+
 
 
 function showImage(posterPath) {
@@ -119,5 +123,4 @@ function showImage(posterPath) {
 
   }
 
-export { movies, moviesGenre, tvShows, fetchCastAndCrew, trending, moviesTopRated, movieById, tvById, showImage, getMovieGenres, fetchSimilarContent, personById, moviesWorksURL, tvWorksURL, personsPopular };
-
+export { movies, moviesGenre, tvShows, fetchCastAndCrew, trending, moviesTopRated, movieById, tvById, showImage, getMovieGenres, fetchSimilarContent, personById, moviesWorksURL, tvWorksURL, personsPopular, search };

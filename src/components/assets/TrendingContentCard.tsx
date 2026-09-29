@@ -5,7 +5,7 @@ interface iContentCard {
   movieImgUrl: string;
 }
 
-function ContentCard({
+function TrendingContentCard({
   title,
   genreOrChar,
   contentRate,
@@ -79,4 +79,4 @@ function SimilarContent({posterPath, title, yearReleased}: {
 
 };
 
-export {ContentCard, SimilarContent};
+export {TrendingContentCard, SimilarContent};

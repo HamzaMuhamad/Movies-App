@@ -2,7 +2,7 @@ import "./home.css";
 import { moviesTopRated, showImage, trending, getMovieGenres } from "../util/API";
 import type { iMultiContentResult } from "../util/API";
 import { useState, useEffect } from "react";
-import { ContentCard } from "../components/assets/ContentCard";
+import { TrendingContentCard } from "../components/assets/TrendingContentCard";
 
 
 function Home() {
@@ -84,7 +84,7 @@ function Home() {
       let movieRate = movie.vote_average;
       let movieImgUrl = showImage(movie.poster_path) ;
 
-      movies.push(<ContentCard key={title} title={title} genreOrChar={genre} contentRate={movieRate} movieImgUrl={movieImgUrl} />);
+      movies.push(<TrendingContentCard key={title} title={title} genreOrChar={genre} contentRate={movieRate} movieImgUrl={movieImgUrl} />);
 
     })
 
