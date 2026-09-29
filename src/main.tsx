@@ -11,6 +11,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { movies, tvShows, search } from "./util/API";
 
 import Layout from "./components/layout/Layout";
+import Actors from "./pages/actors/Actors";
 
 
 const router = createBrowserRouter([
@@ -38,6 +39,11 @@ const router = createBrowserRouter([
           return [...tvShows.results]
         },
         element: <Content areMovies={false}/>
+      },
+    
+      {
+        path: "people",
+        Component: Actors
       }
 
     ]
