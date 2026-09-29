@@ -2,17 +2,17 @@
 
 import { useState, useEffect } from "react";
 import { movies, tvShows, showImage } from "../../util/API";
-import type { iContentResults } from "../../util/API";
+import type { iMultiContentResult } from "../../util/API";
 import Loading from "../../components/loading/Loading"
 
 
 
 export default function Content({areMovies}: {areMovies: boolean}) {
-  const [content, setContent] = useState<iContentResults[] | undefined>([])
+  const [content, setContent] = useState<iMultiContentResult[] | undefined>([])
 
   /**
    * [YEAR, MONTH, DAY] */
-  function releaseDate (content:iContentResults  ): number[] {
+  function releaseDate (content:iMultiContentResult  ): number[] {
     let date = content?.release_date ?? content?.first_air_date ?? "unknown";  
     
     return date!.split('-').map((item) => +item);
@@ -36,7 +36,7 @@ export default function Content({areMovies}: {areMovies: boolean}) {
 
 
 
-  function ContentCard({theContent}: {theContent: iContentResults}) {
+  function ContentCard({theContent}: {theContent: iMultiContentResult}) {
 
     let posterPath = showImage(theContent.poster_path);
     let title = theContent.title ?? theContent.name ?? "Unknown";

@@ -3,16 +3,17 @@ export const MONTHS = ["January", "February", "March", "April", "May", "June", "
 
 
 
-let moviesUrl = "https://api.themoviedb.org/3/discover/movie?api_key=09dfd7f3f3db787250f9ac1837252c17";
+let moviesUrl = "https://api.themoviedb.org/3/discover/movie";
 
-let moviesGenreUrl = "https://api.themoviedb.org/3/genre/movie/list?language=en&api_key=09dfd7f3f3db787250f9ac1837252c17";
+let moviesGenreUrl = "https://api.themoviedb.org/3/genre/movie/list?language=en";
 
-let tvShowsUrl = "https://api.themoviedb.org/3/discover/tv?api_key=09dfd7f3f3db787250f9ac1837252c17";
+let tvShowsUrl = "https://api.themoviedb.org/3/discover/tv";
 
+let trendingUrl = "https://api.themoviedb.org/3/trending/all/day?language=en-US";
 
-let trendingUrl = "https://api.themoviedb.org/3/trending/all/day?language=en-US?api_key=09dfd7f3f3db787250f9ac1837252c17";
+let topRatedUrl = "https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1";
 
-let topRatedUrl = "https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1&api_key=09dfd7f3f3db787250f9ac1837252c17";
+let personsPopularUrl = "https://api.themoviedb.org/3/person/popular";
 
 
 
@@ -33,6 +34,8 @@ const moviesGenre = await fetching(moviesGenreUrl);
 const tvShows = await fetching(tvShowsUrl);
 const trending = await fetching(trendingUrl);
 const moviesTopRated = await fetching(topRatedUrl);
+const personsPopular = await fetching(personsPopularUrl);
+
 
 
 
@@ -75,6 +78,10 @@ const tvWorksURL = async (personId) => {
 
 };
 
+function search (searchQuery, pageNumber) {
+  return fetching(`https://api.themoviedb.org/3/search/multi?query=${searchQuery}&page=${pageNumber}`);
+}
+
 
 
 function showImage(posterPath) {
@@ -116,5 +123,4 @@ function showImage(posterPath) {
 
   }
 
-export { movies, moviesGenre, tvShows, fetchCastAndCrew, trending, moviesTopRated, movieById, tvById, showImage, getMovieGenres, fetchSimilarContent, personById, moviesWorksURL, tvWorksURL };
-
+export { movies, moviesGenre, tvShows, fetchCastAndCrew, trending, moviesTopRated, movieById, tvById, showImage, getMovieGenres, fetchSimilarContent, personById, moviesWorksURL, tvWorksURL, personsPopular, search };
