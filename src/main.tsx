@@ -30,7 +30,7 @@ const router = createBrowserRouter([
         loader: async () => {
           return [...movies.results]
         },
-        element: <Content areMovies={true}/>
+        Component: Content
       },
     
       {
@@ -38,7 +38,7 @@ const router = createBrowserRouter([
         loader: async () => {
           return [...tvShows.results]
         },
-        element: <Content areMovies={false}/>
+        Component: Content
       },
     
       {
