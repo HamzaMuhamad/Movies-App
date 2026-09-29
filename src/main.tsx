@@ -11,6 +11,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { movies, tvShows, search } from "./util/API";
 
 import Layout from "./components/layout/Layout";
+import Actors from "./pages/actors/Actors";
 
 
 const router = createBrowserRouter([
@@ -29,7 +30,7 @@ const router = createBrowserRouter([
         loader: async () => {
           return [...movies.results]
         },
-        element: <Content areMovies={true}/>
+        Component: Content
       },
     
       {
@@ -37,7 +38,12 @@ const router = createBrowserRouter([
         loader: async () => {
           return [...tvShows.results]
         },
-        element: <Content areMovies={false}/>
+        Component: Content
+      },
+    
+      {
+        path: "people",
+        Component: Actors
       }
 
     ]
@@ -54,7 +60,6 @@ const router = createBrowserRouter([
   },
 ])
 
-console.log(personsPopular.page)
 createRoot(document.getElementById("root")!).render(
   // <StrictMode>
     <section>

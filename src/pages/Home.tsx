@@ -94,7 +94,7 @@ function Home() {
 
   return (
 
-      <main className="bg-[#131314]"> {/*HAS A BEFORE */}
+      <main className="bg-[#131314] pb-22"> {/*HAS A BEFORE */}
 
         <section id="movies-crossfade" className="overlay relative mb-6 h-[60vh]">
 

@@ -1,6 +1,15 @@
 import "./navbar.css";
-import { useState, useEffect } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { useState } from "react";
+import { AnimatePresence, LayoutGroup, motion } from "framer-motion";
+import { NavLink } from "react-router-dom";
+
+const activeTabTransition = {
+  type: "spring" as const,
+  stiffness: 850,
+  damping: 55,
+  mass: 0.7,
+};
+
 function Navbar() {
   /**
    * There is a new data-type I learnt called JSX.Element, this is what I use to return JSX elements.
@@ -8,9 +17,9 @@ function Navbar() {
    * let searchBar: React.JSX.Element = (<li className="">...</li>)
    * ```
    * * __________________________________
-   * 
+   *
    * Framer motion => Animates before removing from the dom (Read More)
-   * 
+   *
    * *___________________________________
    *
    */
@@ -38,7 +47,7 @@ function Navbar() {
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          xmlnsXlink="http://www.w3.org/1999/xlink"
+          // xmlnsXNavLink="http://www.w3.org/1999/xNavLink"
           fill="#CBC3D7"
           height="18"
           width="18"
@@ -54,123 +63,174 @@ function Navbar() {
     </li>
   );
 
-  
-
-  // Change the active class to the clicked item
-  useEffect(() => {
-
-    const navBarElements: NodeListOf<HTMLAnchorElement> = document.querySelectorAll("nav ul li a");
-
-    const handleNavElements: Map<HTMLAnchorElement, () => void> = new Map(); 
-
-    navBarElements.forEach((element) => {
-      function clickHander () {
-        navBarElements.forEach((ele) => {
-          ele.classList.remove("active")
-        });
-        
-        element.classList.add("active")
-      }
-      handleNavElements.set(element, clickHander);
-      element.addEventListener("click", clickHander)
-
-    })
-    // Clean UP
-    return () => {
-      handleNavElements.forEach((clickHander, element) => {
-        element.removeEventListener("click", clickHander);
-      }) 
-    }
-  }, [openSearch]) 
-
-  
-
   return (
-    <nav className="overflow-hidden w-full px-5 py-2 bg-[#131314e7] backdrop-blur-lg text-off-white">
+    <nav className="overflow-hidden w-full px-5 py-2 bg-[#131314e7] backdrop-blur-lg text-off-white fixed bottom-0">
       <ul>
         <AnimatePresence>
-            {!openSearch && (
-              
-              <motion.ul initial={{height: "0px", opacity: 0}} animate={{height: "66px", opacity: 1}} exit={{height: "0px", opacity: 0}} transition={{duration: 0.2}} className="flex items-center justify-center w-full flex-1 gap-2">
+          {!openSearch && (
+            <LayoutGroup>
+              <motion.ul
+                initial={{ height: "0px", opacity: 0 }}
+                animate={{ height: "66px", opacity: 1 }}
+                exit={{ height: "0px", opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                className="flex items-center justify-center w-full flex-1 gap-2"
+              >
                 <li>
-                  <a href="#" className="navbar-Item active">
-                    <div>
-                      <svg
-                        width="16"
-                        height="18"
-                        viewBox="0 0 16 18"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <defs>
-                          <linearGradient
-                            id="iconGradient"
-                            x1="0%"
-                            y1="0%"
-                            x2="0%"
-                            y2="100%"
+                  <NavLink
+                    to="/"
+                    className={({ isActive }) =>
+                      `navbar-Item${isActive ? " active" : ""}`
+                    }
+                  >
+                    {({ isActive }) => (
+                      <>
+                        {isActive && (
+                          <motion.span
+                            layoutId="active-navbar-item"
+                            className="absolute inset-0 rounded-xl bg-[#b4b1b925]"
+                            transition={activeTabTransition}
+                          />
+                        )}
+                        <div className="relative z-10">
+                          <svg
+                            width="16"
+                            height="18"
+                            viewBox="0 0 16 18"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
                           >
-                            <stop stopColor="#D0BCFF" offset="18%" />
-                            <stop stopColor="#7D7199" offset="100%" />
-                          </linearGradient>
-                        </defs>
-                        <path
-                          d="M0 17.1V5.7L7.6 0L15.2 5.7V17.1H9.5V10.45H5.7V17.1H0Z"
+                            <defs>
+                              <linearGradient
+                                id="iconGradient"
+                                x1="0%"
+                                y1="0%"
+                                x2="0%"
+                                y2="100%"
+                              >
+                                <stop stopColor="#D0BCFF" offset="18%" />
+                                <stop stopColor="#7D7199" offset="100%" />
+                              </linearGradient>
+                            </defs>
+                            <path
+                              d="M0 17.1V5.7L7.6 0L15.2 5.7V17.1H9.5V10.45H5.7V17.1H0Z"
+                              fill="#CBC3D7"
+                            />
+                          </svg>
+                        </div>
+                        <p className="relative z-10">Home</p>
+                      </>
+                    )}
+                  </NavLink>
+                </li>
+
+                <li>
+                  <NavLink
+                    to="/movies"
+                    className={({ isActive }) =>
+                      `navbar-Item${isActive ? " active" : ""}`
+                    }
+                  >
+                    {({ isActive }) => (
+                      <>
+                        {isActive && (
+                          <motion.div
+                            layoutId="active-navbar-item"
+                            className="absolute inset-0 rounded-xl bg-[#b4b1b925]"
+                            transition={activeTabTransition}
+                          />
+                        )}
+                        <div className="relative z-10">
+                          <svg
+                            width="20"
+                            height="16"
+                            viewBox="0 0 20 16"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M2 0L4 4H7L5 0H7L9 4H12L10 0H12L14 4H17L15 0H18C18.55 0 19.0208 0.195833 19.4125 0.5875C19.8042 0.979167 20 1.45 20 2V14C20 14.55 19.8042 15.0208 19.4125 15.4125C19.0208 15.8042 18.55 16 18 16H2C1.45 16 0.979167 15.8042 0.5875 15.4125C0.195833 15.0208 0 14.55 0 14V2C0 1.45 0.195833 0.979167 0.5875 0.5875C0.979167 0.195833 1.45 0 2 0V0V0M2 6V14V14V14H18V14V14V6H2V6M2 6V6V14V14V14V14V14V14V6V6"
+                              fill="#CBC3D7"
+                            />
+                          </svg>
+                        </div>
+                        <p className="relative z-10 mt-2">Movies</p>
+                      </>
+                    )}
+                  </NavLink>
+                </li>
+
+                <li>
+                  <NavLink
+                    to="/tv"
+                    className={({ isActive }) =>
+                      `navbar-Item${isActive ? " active" : ""}`
+                    }
+                  >
+                    {({ isActive }) => (
+                      <>
+                        {" "}
+                        {isActive && (
+                          <motion.div
+                            layoutId="active-navbar-item"
+                            className="absolute inset-0 rounded-xl bg-[#b4b1b925]"
+                            transition={activeTabTransition}
+                          />
+                        )}{" "}
+                        <div className="relative z-10">
+                          {" "}
+                          <svg
+                            width="20"
+                            height="18"
+                            viewBox="0 0 20 18"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M6 18V16H2C1.45 16 0.979167 15.8042 0.5875 15.4125C0.195833 15.0208 0 14.55 0 14V2C0 1.45 0.195833 0.979167 0.5875 0.5875C0.979167 0.195833 1.45 0 2 0H18C18.55 0 19.0208 0.195833 19.4125 0.5875C19.8042 0.979167 20 1.45 20 2V14C20 14.55 19.8042 15.0208 19.4125 15.4125C19.0208 15.8042 18.55 16 18 16H14V18H6V18M2 14H18V14V14V2V2V2H2V2V2V14V14V14V14M2 14V14V14V2V2V2V2V2V2V14V14V14V14V14"
+                              fill="#CBC3D7"
+                            />
+                          </svg>
+                        </div>
+                        <p className="relative z-10 mt-2">TV Shows</p>
+                      </>
+                    )}
+                  </NavLink>
+                </li>
+
+                <li>
+                  <NavLink
+                    to="/people"
+                    className={({ isActive }) =>
+                      `navbar-Item${isActive ? " active" : ""}`
+                    }
+                  >
+                    {({ isActive }) => (
+                      <>
+                        {isActive && (
+                          <motion.span
+                            layoutId="active-navbar-item"
+                            className="absolute inset-0 rounded-xl bg-[#b4b1b925]"
+                            transition={activeTabTransition}
+                          />
+                        )}
+                        <svg
+                          className="relative z-10"
                           fill="#CBC3D7"
-                        />
-                      </svg>
-                    </div>
-                    <p>Home</p>
-                  </a>
+                          width="30px"
+                          height="20"
+                          viewBox="0 0 30 30"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path d="M16 15.503A5.041 5.041 0 1 0 16 5.42a5.041 5.041 0 0 0 0 10.083zm0 2.215c-6.703 0-11 3.699-11 5.5v3.363h22v-3.363c0-2.178-4.068-5.5-11-5.5z" />
+                        </svg>
+
+                        <p className="relative z-10">People</p>
+                      </>
+                    )}
+                  </NavLink>
                 </li>
 
-                <li>
-                  <a href="#" className="navbar-Item">
-                    <div>
-                      <svg
-                        width="20"
-                        height="16"
-                        viewBox="0 0 20 16"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M2 0L4 4H7L5 0H7L9 4H12L10 0H12L14 4H17L15 0H18C18.55 0 19.0208 0.195833 19.4125 0.5875C19.8042 0.979167 20 1.45 20 2V14C20 14.55 19.8042 15.0208 19.4125 15.4125C19.0208 15.8042 18.55 16 18 16H2C1.45 16 0.979167 15.8042 0.5875 15.4125C0.195833 15.0208 0 14.55 0 14V2C0 1.45 0.195833 0.979167 0.5875 0.5875C0.979167 0.195833 1.45 0 2 0V0V0M2 6V14V14V14H18V14V14V6H2V6M2 6V6V14V14V14V14V14V14V6V6"
-                          fill="#CBC3D7"
-                        />
-                      </svg>
-                    </div>
-
-                    <p>Movies</p>
-                  </a>
-                </li>
-
-                <li>
-                  <a href="#" className="navbar-Item">
-                    <svg
-                      width="20"
-                      height="18"
-                      viewBox="0 0 20 18"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M6 18V16H2C1.45 16 0.979167 15.8042 0.5875 15.4125C0.195833 15.0208 0 14.55 0 14V2C0 1.45 0.195833 0.979167 0.5875 0.5875C0.979167 0.195833 1.45 0 2 0H18C18.55 0 19.0208 0.195833 19.4125 0.5875C19.8042 0.979167 20 1.45 20 2V14C20 14.55 19.8042 15.0208 19.4125 15.4125C19.0208 15.8042 18.55 16 18 16H14V18H6V18M2 14H18V14V14V2V2V2H2V2V2V14V14V14V14M2 14V14V14V2V2V2V2V2V2V14V14V14V14V14"
-                        fill="#CBC3D7"
-                      />
-                    </svg>
-
-                    <p>TV Shows</p>
-                  </a>
-                </li>
-
-                <li>
-                  <a href="#" className="navbar-Item">
-                    <svg fill="#CBC3D7" width="30px" height="20" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg"><path d="M16 15.503A5.041 5.041 0 1 0 16 5.42a5.041 5.041 0 0 0 0 10.083zm0 2.215c-6.703 0-11 3.699-11 5.5v3.363h22v-3.363c0-2.178-4.068-5.5-11-5.5z"/></svg>
-
-                    <p>People</p>
-                  </a>
-                </li>
 
                 <li>
                   <div
@@ -196,19 +256,22 @@ function Navbar() {
                 </li>
 
               </motion.ul>
-            )}
-
+            </LayoutGroup>
+          )}
         </AnimatePresence>
 
         <AnimatePresence>
           {openSearch && (
-            <motion.ul initial={{height: "0px", opacity: 0}} animate={{height: "66px", opacity: 1}} exit={{height: "0px", opacity: 0}} transition={{duration: 0.2}} className="flex items-center justify-center w-full flex-1 gap-2 ">
-
+            <motion.ul
+              initial={{ height: "0px", opacity: 0 }}
+              animate={{ height: "66px", opacity: 1 }}
+              exit={{ height: "0px", opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="flex items-center justify-center w-full flex-1 gap-2 "
+            >
               {searchBar}
             </motion.ul>
-          )
-        }
-            
+          )}
         </AnimatePresence>
       </ul>
     </nav>

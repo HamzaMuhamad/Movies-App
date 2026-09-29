@@ -4,11 +4,11 @@ import { useState, useEffect } from "react";
 import { movies, tvShows, showImage } from "../../util/API";
 import type { iMultiContentResult } from "../../util/API";
 import Loading from "../../components/loading/Loading"
+import { useLoaderData } from "react-router-dom";
 
 
-
-export default function Content({areMovies}: {areMovies: boolean}) {
-  const [content, setContent] = useState<iMultiContentResult[] | undefined>([])
+export default function Content() {
+  const content = useLoaderData<iMultiContentResult[]>()
 
   /**
    * [YEAR, MONTH, DAY] */
@@ -25,14 +25,6 @@ export default function Content({areMovies}: {areMovies: boolean}) {
     content?.sort((a, b) => new Date(releaseDate(b).toString()).getTime() - new Date(releaseDate(a).toString()).getTime())
   }
 
-  useEffect(() => {
-    if (areMovies) {
-      setContent(() => [...movies.results])
-    } else {
-      setContent(() => [...tvShows.results])
-
-    }
-  }, [])
 
 
 
@@ -43,7 +35,7 @@ export default function Content({areMovies}: {areMovies: boolean}) {
     let rate = theContent.vote_average.toFixed(1);
 
     return (
-      <section className="rounded-lg bg-[#f0ebf4f0] overflow-hidden flex flex-col gap-3 pb-4 grow w-40">
+      <section className="rounded-lg bg-[#f0ebf4f0] overflow-hidden flex flex-col gap-3 pb-4 grow w-40 ">
         <div className="h-5/7 w-full overflow-hidden">
           <img src={posterPath} alt={title} className="w-full object-cover" />
         </div>
@@ -78,7 +70,7 @@ export default function Content({areMovies}: {areMovies: boolean}) {
 
   }
   return(
-    <section className="flex flex-wrap gap-2 p-4">
+    <section className="flex flex-wrap gap-2 p-4 pb-22">
       {displayCards()}
     </section>
   )
